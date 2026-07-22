@@ -10,7 +10,7 @@ This project does **not** host mirrors, bypass firewalls, or authenticate articl
 
 ## Public Review Links
 
-- Planned GitHub URL: https://github.com/dawnportinfo-design/signed-mirror-manifest
+- GitHub URL: https://github.com/dawnportinfo-design/signed-mirror-manifest
 - Portfolio supplement: `output/pdf/dawnport-otf-application-supplement.pdf` from the portfolio root.
 - Publication commands: `docs/github-publication-commands.md` from the portfolio root.
 
