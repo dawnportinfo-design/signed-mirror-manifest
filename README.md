@@ -1,5 +1,7 @@
 # Signed Mirror Manifest
 
+[![CI](https://github.com/dawnportinfo-design/signed-mirror-manifest/actions/workflows/ci.yml/badge.svg)](https://github.com/dawnportinfo-design/signed-mirror-manifest/actions/workflows/ci.yml)
+
 GitHub description: Signed manifest specification and CLI for publishing and verifying trusted mirror URL metadata.
 
 Signed Mirror Manifest is an open specification and CLI for publishing, signing, verifying, rotating, and revoking trusted mirror URL lists during censorship events.
