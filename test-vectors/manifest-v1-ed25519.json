@@ -1,0 +1,40 @@
+{
+  "description": "Manifest v1 Ed25519 canonical payload and signature test vector.",
+  "canonical_payload": "{\"expires_at\":\"2026-08-06T00:00:00.000Z\",\"issued_at\":\"2026-07-07T00:00:00.000Z\",\"keys\":[{\"algorithm\":\"ed25519\",\"id\":\"vector-root\",\"public_key_pem\":\"-----BEGIN PUBLIC KEY-----\\nMCowBQYDK2VwAyEAEjDtw8HxO8fTqCgG3q2Mu7tY1cMTXW3GlySu5rSej/Y=\\n-----END PUBLIC KEY-----\\n\",\"role\":\"root\"}],\"mirrors\":[{\"id\":\"mirror-vector-001\",\"priority\":10,\"status\":\"active\",\"type\":\"https\",\"url\":\"https://mirror.vector.example\"}],\"publisher\":{\"canonical_origin\":\"https://vector.example\",\"name\":\"Vector Publisher\"},\"revoked_mirrors\":[],\"sequence\":3,\"spec_version\":\"1.0\"}",
+  "canonical_payload_sha256": "c7d5e19db766cfce89ca340facef733e63604ad42a9bb0a7c219a5f63fc2020d",
+  "signed_manifest": {
+    "spec_version": "1.0",
+    "publisher": {
+      "name": "Vector Publisher",
+      "canonical_origin": "https://vector.example"
+    },
+    "issued_at": "2026-07-07T00:00:00.000Z",
+    "expires_at": "2026-08-06T00:00:00.000Z",
+    "sequence": 3,
+    "mirrors": [
+      {
+        "id": "mirror-vector-001",
+        "url": "https://mirror.vector.example",
+        "type": "https",
+        "status": "active",
+        "priority": 10
+      }
+    ],
+    "revoked_mirrors": [],
+    "keys": [
+      {
+        "id": "vector-root",
+        "role": "root",
+        "algorithm": "ed25519",
+        "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAEjDtw8HxO8fTqCgG3q2Mu7tY1cMTXW3GlySu5rSej/Y=\n-----END PUBLIC KEY-----\n"
+      }
+    ],
+    "signatures": [
+      {
+        "key_id": "vector-root",
+        "algorithm": "ed25519",
+        "signature": "qztvNdnPYO02xCk0q5LTwlPSNMbBsD6ElyEoBH5TpboK28XL6tQZv4EaEgk8q+FCQZ2JhyRf07h5mitTa1IKCA=="
+      }
+    ]
+  }
+}

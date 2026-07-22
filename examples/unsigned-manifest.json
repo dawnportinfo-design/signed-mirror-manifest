@@ -1,0 +1,31 @@
+{
+  "spec_version": "1.0",
+  "publisher": {
+    "name": "Example Independent Media",
+    "canonical_origin": "https://example.org"
+  },
+  "issued_at": "2026-07-05T00:00:00Z",
+  "expires_at": "2030-07-05T00:00:00Z",
+  "sequence": 1,
+  "mirrors": [
+    {
+      "id": "mirror-001",
+      "url": "https://example-news.pages.dev",
+      "type": "https",
+      "status": "active",
+      "priority": 10,
+      "regions": ["global"],
+      "content_scope": ["homepage", "news"]
+    }
+  ],
+  "revoked_mirrors": [],
+  "keys": [
+    {
+      "id": "example-root",
+      "role": "root",
+      "algorithm": "ed25519",
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\\nMCowBQYDK2VwAyEA0000000000000000000000000000000000000000000=\\n-----END PUBLIC KEY-----\\n"
+    }
+  ],
+  "signatures": []
+}

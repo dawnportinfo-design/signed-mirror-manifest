@@ -1,0 +1,17 @@
+node_modules
+dist
+*.log
+*.local
+.env
+.env.*
+.tmp-*
+tmp
+tmp-*
+*.encrypted.json
+*.key
+*.pem
+*.p12
+*.pfx
+*.private.*
+examples/keys
+.DS_Store

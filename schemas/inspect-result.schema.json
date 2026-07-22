@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dawnportinfo-design.example/schemas/signed-mirror-manifest/inspect-result.schema.json",
+  "title": "Signed Mirror Manifest Inspect Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["policy", "verification", "mirror"],
+  "properties": {
+    "policy": {
+      "type": "string",
+      "enum": ["any", "operational"]
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ok", "checked", "verification_safety_boundary", "public_timeline_summary", "errors", "remediation"],
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "checked": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "policy",
+            "now",
+            "payload_sha256",
+            "mirror_count",
+            "revoked_mirror_count",
+            "key_count",
+            "signature_count",
+            "valid_operational_signatures"
+          ],
+          "properties": {
+            "policy": {
+              "type": "string",
+              "enum": ["any", "operational"]
+            },
+            "now": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "payload_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "mirror_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "revoked_mirror_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "key_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "signature_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "valid_operational_signatures": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "verification_safety_boundary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["allowed_to_share", "do_not_share", "recheck_before_relay", "non_claims"],
+          "properties": {
+            "allowed_to_share": {
+              "type": "array",
+              "minItems": 3,
+              "items": { "type": "string", "minLength": 1 }
+            },
+            "do_not_share": {
+              "type": "array",
+              "minItems": 4,
+              "items": { "type": "string", "minLength": 1 }
+            },
+            "recheck_before_relay": {
+              "type": "array",
+              "minItems": 3,
+              "items": { "type": "string", "minLength": 1 }
+            },
+            "non_claims": {
+              "type": "array",
+              "minItems": 3,
+              "items": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "public_timeline_summary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["relay_allowed", "status", "policy", "checked_at", "relay_expires_at", "max_age_seconds", "payload_sha256", "active_mirror_count", "revoked_mirror_count", "valid_operational_signatures", "required_context", "do_not_include", "non_claims"],
+          "properties": {
+            "relay_allowed": { "type": "boolean" },
+            "status": { "type": "string", "enum": ["verified", "not-verified"] },
+            "policy": { "type": "string", "enum": ["any", "operational"] },
+            "checked_at": { "type": "string", "format": "date-time" },
+            "relay_expires_at": { "type": "string", "format": "date-time" },
+            "max_age_seconds": { "type": "integer", "minimum": 1, "maximum": 3600 },
+            "payload_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            "active_mirror_count": { "type": "integer", "minimum": 0 },
+            "revoked_mirror_count": { "type": "integer", "minimum": 0 },
+            "valid_operational_signatures": { "type": "integer", "minimum": 0 },
+            "required_context": {
+              "type": "array",
+              "minItems": 3,
+              "items": { "type": "string", "minLength": 1 },
+              "uniqueItems": true
+            },
+            "do_not_include": {
+              "type": "array",
+              "minItems": 4,
+              "items": { "type": "string", "minLength": 1 },
+              "uniqueItems": true
+            },
+            "non_claims": {
+              "type": "array",
+              "minItems": 3,
+              "items": { "type": "string", "minLength": 1 },
+              "uniqueItems": true
+            }
+          }
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "remediation": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "mirror": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "message"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["verified", "unknown", "revoked", "paused", "expired"]
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

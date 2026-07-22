@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dawnport.example/schemas/signed-mirror-manifest/mirror-manifest.schema.json",
+  "title": "Signed Mirror Manifest",
+  "type": "object",
+  "required": ["spec_version", "publisher", "issued_at", "expires_at", "sequence", "mirrors", "revoked_mirrors", "keys", "signatures"],
+  "properties": {
+    "spec_version": { "type": "string", "const": "1.0" },
+    "publisher": {
+      "type": "object",
+      "required": ["name", "canonical_origin"],
+      "properties": {
+        "name": { "type": "string" },
+        "canonical_origin": { "type": "string", "format": "uri" }
+      },
+      "additionalProperties": false
+    },
+    "issued_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time" },
+    "sequence": { "type": "integer", "minimum": 1 },
+    "mirrors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "url", "type", "status", "priority"],
+        "properties": {
+          "id": { "type": "string" },
+          "url": { "type": "string", "format": "uri" },
+          "type": { "type": "string", "enum": ["https", "onion", "ipfs"] },
+          "status": { "type": "string", "enum": ["active", "paused"] },
+          "priority": { "type": "integer" },
+          "regions": { "type": "array", "items": { "type": "string" } },
+          "content_scope": { "type": "array", "items": { "type": "string" } },
+          "valid_from": { "type": "string", "format": "date-time" },
+          "valid_until": { "type": "string", "format": "date-time" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "revoked_mirrors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "reason", "revoked_at"],
+        "properties": {
+          "id": { "type": "string" },
+          "reason": { "type": "string" },
+          "revoked_at": { "type": "string", "format": "date-time" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "keys": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "role", "algorithm", "public_key_pem"],
+        "properties": {
+          "id": { "type": "string" },
+          "role": { "type": "string", "enum": ["root", "targets", "emergency", "observer"] },
+          "algorithm": { "type": "string", "const": "ed25519" },
+          "public_key_pem": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "signatures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["key_id", "algorithm", "signature"],
+        "properties": {
+          "key_id": { "type": "string" },
+          "algorithm": { "type": "string", "const": "ed25519" },
+          "signature": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

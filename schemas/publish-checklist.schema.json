@@ -1,0 +1,274 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dawnport.example/schemas/signed-mirror-manifest/publish-checklist.schema.json",
+  "title": "Signed Mirror Publish Checklist",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "publisher",
+    "sequence",
+    "expires_at",
+    "policy",
+    "can_publish",
+    "publication_freshness",
+    "verification",
+    "active_mirrors",
+    "publication_safety_boundary",
+    "verification_publication_boundary",
+    "announcement_channel_boundary",
+    "announcement_checklist",
+    "warnings"
+  ],
+  "properties": {
+    "publisher": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "canonical_origin"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "canonical_origin": { "type": "string", "minLength": 1 }
+      }
+    },
+    "sequence": { "type": "integer", "minimum": 1 },
+    "expires_at": { "type": "string", "format": "date-time" },
+    "policy": { "type": "string", "enum": ["any", "operational"] },
+    "can_publish": { "type": "boolean" },
+    "publication_freshness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checked_at",
+        "relay_expires_at",
+        "max_age_seconds",
+        "publish_requires_recheck_after_expiry",
+        "boundary"
+      ],
+      "properties": {
+        "checked_at": { "type": "string", "format": "date-time" },
+        "relay_expires_at": { "type": "string", "format": "date-time" },
+        "max_age_seconds": { "type": "integer", "minimum": 1, "maximum": 3600 },
+        "publish_requires_recheck_after_expiry": { "type": "boolean", "const": true },
+        "boundary": { "type": "string", "minLength": 1 }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ok", "checked", "verification_safety_boundary", "public_timeline_summary", "errors", "remediation"],
+      "properties": {
+        "ok": { "type": "boolean" },
+        "checked": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "policy",
+            "now",
+            "payload_sha256",
+            "mirror_count",
+            "revoked_mirror_count",
+            "key_count",
+            "signature_count",
+            "valid_operational_signatures"
+          ],
+          "properties": {
+            "policy": { "type": "string", "enum": ["any", "operational"] },
+            "now": { "type": "string", "format": "date-time" },
+            "payload_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            "mirror_count": { "type": "integer", "minimum": 0 },
+            "revoked_mirror_count": { "type": "integer", "minimum": 0 },
+            "key_count": { "type": "integer", "minimum": 0 },
+            "signature_count": { "type": "integer", "minimum": 0 },
+            "valid_operational_signatures": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "verification_safety_boundary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["allowed_to_share", "do_not_share", "recheck_before_relay", "non_claims"],
+          "properties": {
+            "allowed_to_share": {
+              "type": "array",
+              "minItems": 3,
+              "items": { "type": "string", "minLength": 1 }
+            },
+            "do_not_share": {
+              "type": "array",
+              "minItems": 4,
+              "items": { "type": "string", "minLength": 1 }
+            },
+            "recheck_before_relay": {
+              "type": "array",
+              "minItems": 3,
+              "items": { "type": "string", "minLength": 1 }
+            },
+            "non_claims": {
+              "type": "array",
+              "minItems": 3,
+              "items": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "public_timeline_summary": {
+          "type": "object",
+          "additionalProperties": false,
+            "required": ["relay_allowed", "status", "policy", "checked_at", "relay_expires_at", "max_age_seconds", "payload_sha256", "active_mirror_count", "revoked_mirror_count", "valid_operational_signatures", "required_context", "do_not_include", "non_claims"],
+            "properties": {
+              "relay_allowed": { "type": "boolean" },
+              "status": { "type": "string", "enum": ["verified", "not-verified"] },
+              "policy": { "type": "string", "enum": ["any", "operational"] },
+              "checked_at": { "type": "string", "format": "date-time" },
+              "relay_expires_at": { "type": "string", "format": "date-time" },
+              "max_age_seconds": { "type": "integer", "minimum": 1, "maximum": 3600 },
+              "payload_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            "active_mirror_count": { "type": "integer", "minimum": 0 },
+            "revoked_mirror_count": { "type": "integer", "minimum": 0 },
+            "valid_operational_signatures": { "type": "integer", "minimum": 0 },
+            "required_context": {
+              "type": "array",
+              "minItems": 3,
+              "items": { "type": "string", "minLength": 1 },
+              "uniqueItems": true
+            },
+            "do_not_include": {
+              "type": "array",
+              "minItems": 4,
+              "items": { "type": "string", "minLength": 1 },
+              "uniqueItems": true
+            },
+            "non_claims": {
+              "type": "array",
+              "minItems": 3,
+              "items": { "type": "string", "minLength": 1 },
+              "uniqueItems": true
+            }
+          }
+        },
+        "errors": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "remediation": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "active_mirrors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "url", "type", "priority"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "url": { "type": "string", "minLength": 1 },
+          "type": { "type": "string", "enum": ["https", "onion", "ipfs"] },
+          "priority": { "type": "integer" }
+        }
+      }
+    },
+    "publication_safety_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed_to_share", "do_not_share", "non_claims", "recheck_before_sharing"],
+      "properties": {
+        "allowed_to_share": {
+          "type": "array",
+          "minItems": 3,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "do_not_share": {
+          "type": "array",
+          "minItems": 5,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "non_claims": {
+          "type": "array",
+          "minItems": 3,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "recheck_before_sharing": {
+          "type": "array",
+          "minItems": 3,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "verification_publication_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allowed_to_relay",
+        "do_not_relay",
+        "required_context",
+        "non_claims"
+      ],
+      "properties": {
+        "allowed_to_relay": {
+          "type": "array",
+          "minItems": 4,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "do_not_relay": {
+          "type": "array",
+          "minItems": 5,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "required_context": {
+          "type": "array",
+          "minItems": 4,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "non_claims": {
+          "type": "array",
+          "minItems": 3,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "announcement_channel_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allowed_channels",
+        "do_not_use_channels",
+        "required_before_channel_post",
+        "non_claims"
+      ],
+      "properties": {
+        "allowed_channels": {
+          "type": "array",
+          "minItems": 3,
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "do_not_use_channels": {
+          "type": "array",
+          "minItems": 4,
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "required_before_channel_post": {
+          "type": "array",
+          "minItems": 4,
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "non_claims": {
+          "type": "array",
+          "minItems": 3,
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        }
+      }
+    },
+    "announcement_checklist": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}

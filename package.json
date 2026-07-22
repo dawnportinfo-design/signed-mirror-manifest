@@ -1,0 +1,37 @@
+{
+  "name": "signed-mirror-manifest",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Open specification and CLI for signing, verifying, rotating, and revoking trusted mirror URL manifests.",
+  "type": "module",
+  "bin": {
+    "smm": "dist/cli.js"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc",
+    "test": "vitest run",
+    "validate:examples": "node scripts/validate-examples.mjs",
+    "ci": "node scripts/ci.mjs"
+  },
+  "keywords": [
+    "censorship",
+    "mirrors",
+    "digital-security",
+    "human-rights",
+    "internet-freedom",
+    "synthetic-data",
+    "ed25519"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^26.1.0"
+  },
+  "devDependencies": {
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.10"
+  }
+}
